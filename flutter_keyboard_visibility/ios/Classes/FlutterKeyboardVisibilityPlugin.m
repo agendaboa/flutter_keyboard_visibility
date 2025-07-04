@@ -36,6 +36,7 @@
     [center addObserver:self selector:@selector(didShow) name:UIKeyboardDidShowNotification object:nil];
     [center addObserver:self selector:@selector(willShow) name:UIKeyboardWillShowNotification object:nil];
 	[center addObserver:self selector:@selector(didHide) name:UIKeyboardWillHideNotification object:nil];
+    [center addObserver:self selector:@selector(didHide) name:UIKeyboardDidHideNotification object:nil];
 
     return self;
 }
