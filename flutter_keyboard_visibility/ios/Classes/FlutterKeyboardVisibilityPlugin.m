@@ -47,7 +47,9 @@
     if (!self.isVisible) {
         self.isVisible = YES;
         if (self.flutterEventListening) {
-            self.flutterEventSink([NSNumber numberWithInt:1]);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.flutterEventSink([NSNumber numberWithInt:1]);
+            });
         }
     }
 }
@@ -58,7 +60,9 @@
     if (!self.isVisible) {
         self.isVisible = YES;
         if (self.flutterEventListening) {
-            self.flutterEventSink([NSNumber numberWithInt:1]);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.flutterEventSink([NSNumber numberWithInt:1]);
+            });
         }
     }
 }
@@ -69,7 +73,9 @@
     if (self.isVisible) {
 	    self.isVisible = NO;
 		if (self.flutterEventListening) {
-			self.flutterEventSink([NSNumber numberWithInt:0]);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.flutterEventSink([NSNumber numberWithInt:0]);
+            });
 		}
     }
 }
