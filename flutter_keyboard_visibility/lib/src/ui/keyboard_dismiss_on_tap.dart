@@ -15,10 +15,10 @@ class KeyboardDismissOnTap extends StatefulWidget {
   final bool dismissOnCapturedTaps;
 
   const KeyboardDismissOnTap({
-    Key? key,
+    super.key,
     required this.child,
     this.dismissOnCapturedTaps = false,
-  }) : super(key: key);
+  });
 
   final Widget child;
 
@@ -30,7 +30,8 @@ class KeyboardDismissOnTap extends StatefulWidget {
   static void ignoreNextTap(BuildContext context) {
     context
         .dependOnInheritedWidgetOfExactType<
-            _KeyboardDismissOnTapInheritedWidget>()!
+          _KeyboardDismissOnTapInheritedWidget
+        >()!
         .ignoreNextTap();
   }
 }
@@ -78,19 +79,20 @@ class _KeyboardDismissOnTapState extends State<KeyboardDismissOnTap> {
 class IgnoreKeyboardDismiss extends StatelessWidget {
   final Widget child;
 
-  const IgnoreKeyboardDismiss({
-    Key? key,
-    required this.child,
-  }) : super(key: key);
+  const IgnoreKeyboardDismiss({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
-    return Listener(
-      onPointerUp: (_) {
-        KeyboardDismissOnTap.ignoreNextTap(context);
-      },
-      behavior: HitTestBehavior.translucent,
-      child: child,
+    // A focused TextField unfocuses itself on taps outside its own TapRegion,
+    // independently of the flag below. Joining that region opts this subtree out.
+    return TextFieldTapRegion(
+      child: Listener(
+        onPointerUp: (_) {
+          KeyboardDismissOnTap.ignoreNextTap(context);
+        },
+        behavior: HitTestBehavior.translucent,
+        child: child,
+      ),
     );
   }
 }
@@ -98,11 +100,10 @@ class IgnoreKeyboardDismiss extends StatelessWidget {
 /// Used internally by [KeyboardDismissOnTap] and [IgnoreKeyboardDismiss] to
 /// communicate ignore requests.
 class _KeyboardDismissOnTapInheritedWidget extends InheritedWidget {
-  _KeyboardDismissOnTapInheritedWidget({
-    Key? key,
+  const _KeyboardDismissOnTapInheritedWidget({
     required this.ignoreNextTap,
-    required Widget child,
-  }) : super(key: key, child: child);
+    required super.child,
+  });
 
   final VoidCallback ignoreNextTap;
 
